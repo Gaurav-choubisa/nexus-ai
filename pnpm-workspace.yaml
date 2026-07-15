@@ -1,0 +1,10 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+allowBuilds:
+  bcrypt: true
+  esbuild: false
+
+onlyBuiltDependencies:
+  - esbuild

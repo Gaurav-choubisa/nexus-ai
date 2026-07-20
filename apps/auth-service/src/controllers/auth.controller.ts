@@ -3,20 +3,41 @@ import { Request, Response } from "express";
 import { asyncHandler } from "@nexus/shared";
 
 import { AuthService } from "../services/auth.service";
-import { RegisterUserSchema } from "../validators/auth.validator";
 
 export class AuthController {
-  private readonly authService = new AuthService();
+  private readonly authService: AuthService;
+
+  constructor() {
+    this.authService = new AuthService();
+  }
 
   register = asyncHandler(async (req: Request, res: Response) => {
-    const data = RegisterUserSchema.parse(req.body);
-
-    const user = await this.authService.register(data);
+    const result = await this.authService.register(req.body);
 
     res.status(201).json({
       success: true,
       message: "User registered successfully",
-      data: user,
+      data: result,
+    });
+  });
+
+  login = asyncHandler(async (req: Request, res: Response) => {
+    const result = await this.authService.login(req.body);
+
+    res.status(200).json({
+      success: true,
+      message: "Login successful",
+      data: result,
+    });
+  });
+
+  me = asyncHandler(async (req: Request, res: Response) => {
+    const result = await this.authService.me(req.user!.userId);
+
+    res.status(200).json({
+      success: true,
+      message: "User fetched successfully",
+      data: result,
     });
   });
 }

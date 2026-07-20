@@ -41,6 +41,12 @@ export class User {
   passwordHash!: string;
 
   @Column({
+    type: "varchar",
+    nullable: true,
+  })
+  refreshTokenHash!: string | null;
+
+  @Column({
     type: "enum",
     enum: UserStatus,
     enumName: "user_status",

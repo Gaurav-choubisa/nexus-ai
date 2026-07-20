@@ -1,39 +1,22 @@
 import { Request, Response } from "express";
 
-import { RegisterUserSchema } from "../validators/auth.validator";
+import { asyncHandler } from "@nexus/shared";
+
 import { AuthService } from "../services/auth.service";
+import { RegisterUserSchema } from "../validators/auth.validator";
 
 export class AuthController {
-  private readonly authService: AuthService;
+  private readonly authService = new AuthService();
 
-  constructor() {
-    this.authService = new AuthService();
-  }
+  register = asyncHandler(async (req: Request, res: Response) => {
+    const data = RegisterUserSchema.parse(req.body);
 
-  async register(req: Request, res: Response) {
-    try {
-      const data = RegisterUserSchema.parse(req.body);
+    const user = await this.authService.register(data);
 
-      const user = await this.authService.register(data);
-
-      res.status(201).json({
-        success: true,
-        message: "User registered successfully",
-        data: user,
-      });
-    } catch (error) {
-      if (error instanceof Error) {
-        res.status(400).json({
-          success: false,
-          message: error.message,
-        });
-        return;
-      }
-
-      res.status(500).json({
-        success: false,
-        message: "Internal Server Error",
-      });
-    }
-  }
+    res.status(201).json({
+      success: true,
+      message: "User registered successfully",
+      data: user,
+    });
+  });
 }

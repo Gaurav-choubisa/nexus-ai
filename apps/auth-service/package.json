@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsup src/server.ts --format esm",
+    "build": "tsup src/index.ts --format esm && tsc --project tsconfig.json --emitDeclarationOnly",
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit",
     "migration:generate": "node --import tsx ./node_modules/typeorm/cli.js migration:generate ./src/migrations/CreateUsers -d ./src/config/data-source.ts",
@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@nexus/tsconfig": "workspace:*",
+    "@nexus/shared": "workspace:*",
     "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",

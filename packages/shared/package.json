@@ -12,15 +12,19 @@
     }
   },
   "scripts": {
-    "build": "tsup src/index.ts --format esm --dts",
+    "build": "tsup src/index.ts --format esm && tsc -p tsconfig.json",
     "dev": "tsc --watch",
     "typecheck": "tsc --noEmit",
     "clean": "rimraf dist"
   },
   "devDependencies": {
     "@nexus/tsconfig": "workspace:*",
+    "@types/express": "^5.0.6",
     "@types/node": "^26.1.1",
     "tsup": "^8.5.1",
     "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
   }
 }
